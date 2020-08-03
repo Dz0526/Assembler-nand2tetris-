@@ -9,10 +9,7 @@
      (case (commandtype not_return_lis)
        ((A_COMMAND)   (a_command not_return_lis))
        ((C_COMMAND)   (c_command not_return_lis))
-       ((L_COMMAND)   nil) 
-        ) 
-    )
-  )
+       ((L_COMMAND)   nil) )))
 
 
 

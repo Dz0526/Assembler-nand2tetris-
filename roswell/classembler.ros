@@ -25,10 +25,5 @@ exec ros -Q -- $0 "$@"
       (with-open-file (out (cadr argv) :direction :output :if-exists :supersede)
         (loop for line in lis
               do (unless (or (> 2 (length line)) (string= #\/ (car line)) )  
-                   (format out "~d~%" (cl-assembler/main:parse line)))
-              )
-        ) 
-      ) 
-    )
-  )
+                   (format out "~d~%" (cl-assembler/main:parse line))))))))
 ;;; vim: set ft=lisp lisp:

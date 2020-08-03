@@ -12,25 +12,18 @@
   (let ((command (car lis)) )
     (cond ((string= command #\@) 'A_COMMAND)
           ((string= command #\() 'L_COMMAND)
-          (t                     'C_COMMAND)
-          )
-    )
-  )
+          (t                     'C_COMMAND))))
 
 (defun a_command (lis)
   (let ((decimal (cdr lis)) )
     (format nil "~16,'0b" 
-            (parse-integer (coerce  decimal 'string)))  
-    )
-  )
+            (parse-integer (coerce  decimal 'string)))  ))
 
 (defun c_command (lis)
   (let ((dest_p (dest_find lis))
         (comp_p (comp_find lis))
         (jmp_p  (jmp_find  lis)))
-   (format nil "111~d~d~d" (c_comp comp_p) (c_dest dest_p) (c_jump jmp_p)) 
-    )
-  )
+   (format nil "111~d~d~d" (c_comp comp_p) (c_dest dest_p) (c_jump jmp_p)) ))
 
 
 (defun char_place (lis charr)
@@ -39,20 +32,14 @@
    (when bool
      (if (string= searchc charr)
      0
-     (1+ (char_place (cdr lis) charr))
-     )
-    )
-   ) 
-  )
+     (1+ (char_place (cdr lis) charr))))))
 
 
 (defun dest_find (lis)
   (let ((find=  (char_place lis #\=)) )
    (if find=
        (subseq lis 0 find=)
-       nil) 
-    )
-  )
+       nil) ))
 
 
 (defun comp_find (lis)
@@ -62,18 +49,14 @@
          (find=              (subseq lis (1+ find=)))
          (find_c             (subseq lis 0 find_c))
          (t                  lis)
-         ) 
-    )
-  )
+         ) ))
 
 
 (defun jmp_find (lis)
   (let ((find_c (char_place lis #\;)) )
     (if find_c
         (subseq lis (1+ find_c))
-        nil)
-    )
-  )
+        nil)))
 
 
 (defun c_dest (lis)
@@ -86,10 +69,7 @@
       ((string= dest "AM")  "101") 
       ((string= dest "AD")  "110")
       ((string= dest "AMD") "111")
-      (t                    "000")
-      )
-    )
-  )
+      (t                    "000"))))
 
 (defun c_comp (lis)
   (let ((comp (coerce lis 'string)) )
@@ -122,10 +102,7 @@
       ((string= comp "D-M")   "1010011")
       ((string= comp "M-D")   "1000111")
       ((string= comp "D&M")   "1000000")
-      ((string= comp "D|M")   "1010101")
-      )
-    ) 
-  )
+      ((string= comp "D|M")   "1010101"))))
 
 (defun c_jump (lis)
   (let ((jmp (coerce lis 'string)) )
@@ -137,8 +114,5 @@
       ((string= jmp "JNE")  "101")
       ((string= jmp "JLE")  "110")
       ((string= jmp "JMP")  "111")
-      (t                    "000")
-      ) 
-    ) 
-  )
+      (t                    "000"))))
 
