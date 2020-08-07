@@ -22,6 +22,7 @@ exec ros -Q -- $0 "$@"
                                          (coerce line 'list))))
             
             ) )
+      (print lis)
       (with-open-file (out (cadr argv) :direction :output :if-exists :supersede)
         (loop for line in lis
               do (unless (or (> 2 (length line)) (string= #\/ (car line)) )  
