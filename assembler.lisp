@@ -1,23 +1,38 @@
 (in-package :cl-user)
 (defpackage :cl-assembler/assembler
   (:use :common-lisp)
-  (:export #:commandtype
-           #:a_command
+  (:export ;#:commandtype
+           ;#:a_command
            #:c_command
-           #:char_place))
+           #:char_place
+           #:clean))
 (in-package :cl-assembler/assembler)
 
-
+#|
 (defun commandtype (lis)
   (let ((command (car lis)) )
     (cond ((string= command #\@) 'A_COMMAND)
           ((string= command #\() 'L_COMMAND)
           (t                     'C_COMMAND))))
+(commandtype '(#\@ #\1 #\2))
+|#
 
-(defun a_command (lis)
-  (let ((decimal (cdr lis)) )
-    (format nil "~16,'0b" 
-            (parse-integer (coerce  decimal 'string)))  ))
+(defun clean (lis)
+  (let ((command (car lis)) ) 
+   (if (string= command #\ )
+      (clean (cdr lis))  
+       lis)))
+
+#|
+(defun a_command (lis table)
+  (let ((decimal (cdr lis))
+        (type_b  (digit-char-p (cadr lis))) )
+    (if type_b
+        (format nil "~16,'0b" 
+            (parse-integer (coerce decimal 'string)))
+        (solve_var decimal table))
+      ))
+|#
 
 (defun c_command (lis)
   (let ((dest_p (dest_find lis))
@@ -34,6 +49,7 @@
      0
      (1+ (char_place (cdr lis) charr))))))
 
+(char_place '(#\1 #\  #\2) #\ )
 
 (defun dest_find (lis)
   (let ((find=  (char_place lis #\=)) )
