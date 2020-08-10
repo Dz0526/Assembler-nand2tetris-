@@ -36,19 +36,17 @@
 |#
 
 (defun twopath (lis table rom)
-  (let ((pwd (caar lis)) 
-        (fir (caadr lis)))
-   (cond ((string= fir #\()      (l_command (cadr lis) table rom)
+  (let ((pwd (caar lis)) )
+   (cond ((string= pwd #\()      (l_command (car lis) table rom)
                                  (twopath (cdr lis) table rom))
-         ((string= pwd #\()      (twopath (cdr lis) table rom))
-         ((string= fir #\/)      (twopath (cdr lis) table rom))
-         ((string= fir #\Return) (twopath (cdr lis) table rom))
-         ((eq      fir nil)      nil)
-         (t                      (funcall rom) (twopath (cdr lis) table rom)))))
+         ((string= pwd #\/)      (twopath (cdr lis) table rom))
+         ((string= pwd #\Return) (twopath (cdr lis) table rom))
+         ((eq      pwd nil)      nil)
+         (t                      (incf rom) (twopath (cdr lis) table rom)))))
 
 (defun l_command (lis table rom)
   (let ((sym (subseq lis 1 (cha_place lis #\))) ))
-   (addEntry table (intern (concatenate 'string sym)) (funcall rom))))
+   (addEntry table (intern (concatenate 'string sym)) rom)))
 
 
 (defun solve_var (lis table ram)
